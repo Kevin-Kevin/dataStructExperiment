@@ -7,4 +7,5 @@
 ## Usage
 - 每个目录对应了相应的数据结构及其操作和应用
 - template.cpp 方便新建一个 cpp 文件
-- test.java 我学习 java 的时候测试用的 , 可忽略
+- test.java 学习 java 的时候测试用的 , 可忽略
+- test.sql 学习数据库的时候测试用的 , 可忽略
