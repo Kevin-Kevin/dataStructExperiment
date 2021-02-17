@@ -25,6 +25,7 @@ typedef struct GraphNode *Graph;
 struct ListNode
 {
   ListNode *nextNode;
+  int AdjV;
   int weight;
 };
 Graph createGraph()
@@ -51,6 +52,7 @@ Graph createGraph()
     pListNode m = graph->list[v1];
     graph->list[v1] = node;
     node->nextNode = m;
+    node->AdjV = v2;
     node->weight = weight;
 
     // 邻接表 vertex2 添加边
@@ -59,28 +61,30 @@ Graph createGraph()
       m = graph->list[v2];
       graph->list[v2] = node;
       node->nextNode = m;
-    node->weight = weight;
+      node->AdjV = v1;
+      node->weight = weight;
   }
   return graph;
 }
 void printGraph(Graph g)
 {
-  int length = sizeof(g->list) / sizeof(int);
-  printf("-------- graph = \n");
+  int length = sizeof(g->list) / sizeof(pListNode);
+  printf("\n-------- graph = \n");
   for (int i = 0; i < 99; i++)
   {
     pListNode node = g->list[i];
-    if(node == nullptr)
+    if (node == nullptr)
       continue;
     printf("%d : ", i);
     while (node != nullptr)
     {
-      printf("%d ", node->weight);
+      printf("--->%d ", node->AdjV);
+      printf("w %d  ", node->weight);
       node = node->nextNode;
     }
     printf("\n");
   }
-  printf("----------------\n");
+  printf("----------------\n\n");
 }
 int main(void)
 {
@@ -89,12 +93,14 @@ int main(void)
   return 0;
 }
 /* 
-5 5
+5 8
 1 2 1
 2 3 2
 3 4 3
 4 5 4
 5 1 5
-
+1 3 3
+2 4 6
+5 3 4
 
  */
