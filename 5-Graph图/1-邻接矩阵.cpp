@@ -3,10 +3,9 @@
 
 /*
  * 1. 创建一个二维矩阵
- *    其中 G[Yn][Xn] 
- *        代表顶点 Yn 与顶点 Xn 有没有边连接,值为边的权重
+ *    其中 G[Yn][Xn] 代表顶点 Yn 与顶点 Xn 有没有边连接,值为边的权重
  *    该矩阵从左下部分和右上部分对称, 对角线的值为没有边的值
- * 2. 创建一维数组
+ * 2. 创建一维数组 (只能存储无向图)
  *    只存二维矩阵的左下部分
  */
 
@@ -34,11 +33,12 @@ typedef pointerToEdgeNode Edge;
 Graph CreatGraph(int vertexNum);
 // 向图中插入边
 void InsertEdge(Edge edge, Graph graph);
+void printGraph(Graph g);
 Graph BuildGraph(void);
 int main(void)
 {
   Graph graph = BuildGraph();
-
+printGraph(graph);
   return 0;
 }
 
@@ -48,8 +48,8 @@ Graph CreatGraph(int vertexNum)
   graph = (Graph)malloc(sizeof(struct GNode));
   graph->vertexNumbers = vertexNum;
   graph->edgeNumbers = 0;
-  for (int v = 0; v < graph->vertexNumbers; v++)
-    for (int w = 0; w < graph->vertexNumbers; w++)
+  for (int v = 0; v < 100; v++)
+    for (int w = 0; w < 100; w++)
     {
       graph->G[v][w] = 0;
     }
@@ -89,3 +89,26 @@ Graph BuildGraph(void)
   }
   return graph;
 }
+void printGraph(Graph g){
+  printf("--------graph = \n");
+  for (int i = 0; i < 10;i++){
+    printf("%d : ", i);
+    for (int i1 = 0; i1 < 10;i1++){
+
+      printf("%d ", g->G[i][i1]);
+
+    }
+    printf("\n");
+  }
+  printf("--------");
+}
+
+
+
+
+
+
+
+
+
+

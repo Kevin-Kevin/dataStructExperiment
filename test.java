@@ -5,6 +5,7 @@ import java.util.Stack;
 import javax.print.attribute.HashAttributeSet;
 class test {
   public static void main(String[] args) {
-   hash
+   System.out.printf("nihao");
+   
   }
 }
