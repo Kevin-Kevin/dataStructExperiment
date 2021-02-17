@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 /*
  * 邻接表
  * 创建指针数组即为图
@@ -9,6 +6,10 @@
  *  
  *  
  */
+
+
+#include <stdio.h>
+#include <stdlib.h>
 #define MaxVertexNum 100
 struct GraphNode;
 struct ListNode;
@@ -79,7 +80,7 @@ void printGraph(Graph g)
     }
     printf("\n");
   }
-  printf("----------------");
+  printf("----------------\n");
 }
 int main(void)
 {
