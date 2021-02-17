@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 /*
  * 1. 创建一个二维矩阵
  *    其中 G[Yn][Xn] 代表顶点 Yn 与顶点 Xn 有没有边连接,值为边的权重
@@ -8,6 +5,8 @@
  * 2. 创建一维数组 (只能存储无向图)
  *    只存二维矩阵的左下部分
  */
+#include <stdio.h>
+#include <stdlib.h>
 
 #define MaxVertexNum 100
 #define WeightType int
@@ -33,15 +32,46 @@ typedef pointerToEdgeNode Edge;
 Graph CreatGraph(int vertexNum);
 // 向图中插入边
 void InsertEdge(Edge edge, Graph graph);
-void printGraph(Graph g);
+void printGraph(Graph g, int vertexNum);
 Graph BuildGraph(void);
+
 int main(void)
 {
   Graph graph = BuildGraph();
-printGraph(graph);
   return 0;
 }
+/* 
+---- input example 1 :
+6 6
+1 2 1
+1 3 1
+2 4 1
+2 5 1
+3 6 1
+3 7 1
+---- input example 2 :
+9 16
 
+0 1 1
+1 3 7
+3 6 3
+6 8 7
+
+1 2 3
+1 4 5
+3 4 2 
+4 6 6
+6 7 2
+
+0 2 5
+2 4 1
+4 7 9
+7 8 4
+
+2 5 7 
+5 7 5
+4 5 3
+ */
 Graph CreatGraph(int vertexNum)
 {
   Graph graph;
@@ -85,30 +115,22 @@ Graph BuildGraph(void)
       scanf("%d %d %d", &edge->v1, &edge->v2, &edge->weight);
       InsertEdge(edge, graph);
     }
-
   }
+  printGraph(graph, vertexNum);
   return graph;
 }
-void printGraph(Graph g){
+void printGraph(Graph g, int vertexNum)
+{
   printf("--------graph = \n");
-  for (int i = 0; i < 10;i++){
+  for (int i = 0; i < vertexNum; i++)
+  {
     printf("%d : ", i);
-    for (int i1 = 0; i1 < 10;i1++){
+    for (int i1 = 0; i1 < vertexNum; i1++)
+    {
 
       printf("%d ", g->G[i][i1]);
-
     }
     printf("\n");
   }
   printf("--------");
 }
-
-
-
-
-
-
-
-
-
-
