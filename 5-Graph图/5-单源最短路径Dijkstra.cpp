@@ -11,7 +11,30 @@
  *      }
  *    }
  */
+/* 
+---- input example :
+9 16
 
+0 1 1
+1 3 7
+3 6 3
+6 8 7
+
+1 2 3
+1 4 5
+3 4 2 
+4 6 6
+6 7 2
+
+0 2 5
+2 4 1
+4 7 9
+7 8 4
+
+2 5 7 
+5 7 5
+4 5 3
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,38 +82,7 @@ int main(void)
   return 0;
 }
 
-/* 
----- input example 1 :
-6 6
-1 2 1
-1 3 1
-2 4 1
-2 5 1
-3 6 1
-3 7 1
----- input example 2 :
-9 16
 
-0 1 1
-1 3 7
-3 6 3
-6 8 7
-
-1 2 3
-1 4 5
-3 4 2 
-4 6 6
-6 7 2
-
-0 2 5
-2 4 1
-4 7 9
-7 8 4
-
-2 5 7 
-5 7 5
-4 5 3
- */
 Graph CreatGraph(int vertexNum)
 {
   Graph graph;
