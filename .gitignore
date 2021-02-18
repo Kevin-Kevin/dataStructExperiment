@@ -11,8 +11,7 @@
 # program language file#
 !*.cpp
 !*.c
-!*.class
-!*.sql
+
 
 # document # 
 !*.md
