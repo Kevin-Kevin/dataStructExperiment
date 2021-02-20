@@ -167,11 +167,11 @@ void shortestPath_aka_Dijkstra(Graph g, int vertexIndex)
   finalShortestPath[vertexIndex] = 1;
   int shortestPathNode = vertexIndex;
 
-    printf("current shortest path = ");
-    printPath(currentShortestPath);
-    printf("final shortest path = ");
-    printPath(finalShortestPath);
-
+  printf("current shortest path = ");
+  printPath(currentShortestPath);
+  printf("final shortest path = ");
+  printPath(finalShortestPath);
+  printf("\n");
   // 遍历所有结点
   for (int index = 0; index < 9; index++)
   {

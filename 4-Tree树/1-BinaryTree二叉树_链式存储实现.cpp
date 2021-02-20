@@ -1,7 +1,8 @@
 /*
  * 二叉树 BinaryTree
- *    创建空树 : 
- *        递归创建 
+ *    创建树 : 
+ *        递归遍历生成
+ *        层序遍历生成
  *    遍历 : 
  *        递归遍历 : 前序、中序、后序
  *        非递归遍历(堆栈) : 前序、中序、后序
@@ -54,51 +55,61 @@ PointerBinaryTree getAnOrdinaryTree()
 }
 
 // 前序遍历生成二叉树
-PointerBinaryTree creatBinaryTreeByPreOrder(PointerBinaryTree tree)
+// input : 1 2 4 -1 -1 5 -1 -1 3 6 -1 -1 7 -1 -1
+PointerBinaryTree creatBinaryTreeByPreOrder()
 {
-
+  PointerBinaryTree tree;
   ElementType nodeData;
-  cout << "please input the data of node : ";
+  cout << "input node data (-1 means nullptr) : ";
   cin >> nodeData;
-  if (nodeData == '.')
+  if (nodeData == -1)
   {
     tree = nullptr;
   }
   else
   {
-    tree = new TreeNode(nodeData);
-
-    cout << "tree pointer = " << tree << endl;
-    cout << "tree = new TreeNode( " << tree->data << " )" << endl;
-    cout << "tree left = " << tree->left << endl;
-    cout << "tree right = " << tree->right << endl;
-    tree->left = creatBinaryTreeByPreOrder(tree->left);
-    tree->right = creatBinaryTreeByPreOrder(tree->right);
+    tree = (PointerTreeNode)malloc(sizeof(struct TreeNode));
+    tree->data = nodeData;
+    tree->left = creatBinaryTreeByPreOrder();
+    //cout << "left child tree got\n";
+    tree->right = creatBinaryTreeByPreOrder();
+    //cout << "right child tree got\n";
   }
+  //cout<<"return tree\n";
+  
   return tree;
 }
 // 层序遍历生成二叉树
 PointerBinaryTree createBinaryTreeByBreadthFirst()
 {
-  queue<int> nodeQueue;
-  cout << "input node data by level order  " << endl;
-  cout << "input number of levels :  " << endl;
-  int level = 0;
-  cin >> level;
+  queue<PointerTreeNode> nodeQueue;
+  cout << "input node data by level order(-1 means nullptr)\n" << endl;
+  int data;
 
-  cout << "input " << level << "th"
-       << "level data separated with spaces : " << endl;
-
-  int nodeNumber = 1;
-  PointerTreeNode root = new TreeNode(0);
-  for (int i = 0; i < level; i++)
+  PointerTreeNode root = (PointerTreeNode)malloc(sizeof(struct TreeNode));
+  nodeQueue.push(root);
+  PointerTreeNode tree;
+  while (nodeQueue.empty() == false)
   {
-    cout << "input " << i << "th"
-         << "level data separated with spaces : " << endl;
-    for (int nodeIndex = 0; i < level; i++)
+    tree = nodeQueue.front();
+    nodeQueue.pop();
+    cout << "input node data : ";
+    cin >> data;
+    if(data==-1){
+      tree = nullptr;
+    }
+    else
     {
+
+      tree->data = data;
+      tree->left = (PointerTreeNode)malloc(sizeof(struct TreeNode));
+      tree->right = (PointerTreeNode)malloc(sizeof(struct TreeNode));
+      nodeQueue.push(tree->left);
+      nodeQueue.push(tree->right);
     }
   }
+printf("return");
+
   return root;
 }
 
@@ -249,13 +260,23 @@ void stackPostOrderTraversal(PointerTreeNode node)
     }
     times++;
   }
+  printf("\n");
+
 }
 
 int main()
 {
   PointerBinaryTree tree;
-  creatBinaryTreeByPreOrder(tree);
+  
+  //tree=getAnOrdinaryTree();
 
+  // input : 1 2 4 -1 -1 5 -1 -1 3 6 -1 -1 7 -1 -1
+  //tree = creatBinaryTreeByPreOrder();
+  
+  // input : 1 2 3 4 5 6 7 -1 -1 -1 -1 -1 -1 -1 -1
+  tree = createBinaryTreeByBreadthFirst();
+
+  cout << endl;
   PreOrderTraversal(tree);
   cout << endl;
   InOrderTraversal(tree);
@@ -269,4 +290,15 @@ int main()
   stackPostOrderTraversal(tree);
 
   return 0;
+
 }
+/*
+使用 getAnOrdinaryTree() 的输出结果
+前序遍历 tree data = 1 2 4 5 3 6 7 
+中序遍历 tree data = 4 2 5 1 6 3 7 
+后序遍历 tree data = 4 5 2 6 7 3 1 
+层序遍历 tree data = 1 2 3 4 5 6 7 
+前序遍历(非递归) tree data = 1 2 4 5 3 6 7 
+中序遍历(非递归) tree data = 4 2 5 1 6 3 7 
+后序遍历(非递归) tree data = 4 5 2 6 7 3 1 
+ */
