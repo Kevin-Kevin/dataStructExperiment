@@ -29,12 +29,12 @@ typedef int ElementType;
 
 typedef struct TreeNode
 {
-  ElementType data;
+  ElementType val;
   struct TreeNode *left;
   struct TreeNode *right;
-  TreeNode(ElementType data)
+  TreeNode(ElementType val)
   {
-    this->data = data;
+    this->val = val;
     left = nullptr;
     right = nullptr;
   }
@@ -42,11 +42,11 @@ typedef struct TreeNode
 typedef struct TreeNode *PointerBinaryTree;
 void BreadthFirstTraversal(PointerBinaryTree tree);
 // 二叉搜索树的插入
-PointerBinaryTree insertNode(PointerBinaryTree root, int nodeData)
+PointerBinaryTree insertNode(PointerBinaryTree root, int nodeval)
 {
 
   PointerTreeNode node = (PointerTreeNode)malloc(sizeof(struct TreeNode));
-  node->data = nodeData;
+  node->val = nodeval;
   PointerTreeNode pre = node;
   PointerTreeNode otherRoot = root;
 
@@ -58,7 +58,7 @@ PointerBinaryTree insertNode(PointerBinaryTree root, int nodeData)
   }
   while (root != nullptr)
   {
-    if (nodeData > root->data)
+    if (nodeval > root->val)
     {
       leftOrright = 1;
       pre = root;
@@ -81,7 +81,7 @@ PointerBinaryTree insertNode(PointerBinaryTree root, int nodeData)
 
     pre->left = node;
   }
-
+printf("return ");
   return otherRoot;
 }
 // 二叉搜索树的查找 查找最大值最小值只要遍历到最右或最左就好了就不写了
@@ -89,13 +89,13 @@ PointerBinaryTree findNode(PointerBinaryTree root, int val)
 {
   while (root != nullptr)
   {
-    printf("pointer = %d, data = %d \n", root, root->data);
+    printf("pointer = %d, val = %d \n", root, root->val);
 
-    if (val == root->data)
+    if (val == root->val)
     {
       return root;
     }
-    else if (val > root->data)
+    else if (val > root->val)
     {
       root = root->right;
     }
@@ -108,8 +108,35 @@ PointerBinaryTree findNode(PointerBinaryTree root, int val)
   return nullptr;
 }
 // 二叉搜索树的删除
-void deleteNode(PointerBinaryTree root, int val){
-
+PointerBinaryTree deleteNode(PointerBinaryTree root, int key){
+  if(key>root->val){
+    root->right = deleteNode(root->right, key);
+  } else if(key<root->val){
+    root->left=deleteNode(root->left,key);
+  } else {
+    // 要删除的树结点存在
+    // 此结点为叶结点
+    if(root->left==nullptr&&root->right==nullptr){
+      return nullptr;
+    }
+    // 此结点只有一个结点
+    if(root->left==nullptr){
+      return root->right;
+    }
+    if(root->right==nullptr){
+      return root->left;
+    }
+    // 此结点有两个结点
+    // 将右子树放在左子树的最大值的右子树位置
+    PointerTreeNode node = root->left;
+    while(node!=nullptr){
+      node = node->right;
+    }
+    node->right = root->right;
+    return root->left;
+  }
+  // 结点未找到以及删除完后返回时 return root
+  return root;
 }
 // 层序遍历：队列
 void BreadthFirstTraversal(PointerBinaryTree tree)
@@ -117,13 +144,13 @@ void BreadthFirstTraversal(PointerBinaryTree tree)
   queue<PointerTreeNode> q;
   q.push(tree);
   PointerTreeNode node;
-  cout << "层序遍历 tree data = ";
+  cout << "层序遍历 tree val = ";
   while (q.empty() != true)
   {
     node = q.front();
     q.pop();
 
-    cout << node->data << " ";
+    cout << node->val << " ";
     if (node->left != nullptr)
       q.push(node->left);
     if (node->right != nullptr)
@@ -144,10 +171,12 @@ int main()
   {
     tree = insertNode(tree, input[i]);
   }
-  printf("insert over");
+    printf("insert over");
   BreadthFirstTraversal(tree);
   PointerBinaryTree node = findNode(tree, 8);
   printf("find node pointer=%d", node);
-  
+
+  tree = deleteNode(tree, 1);
+  BreadthFirstTraversal(tree);
   return 0;
 }
