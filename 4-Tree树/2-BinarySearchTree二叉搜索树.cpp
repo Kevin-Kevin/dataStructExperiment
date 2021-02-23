@@ -64,24 +64,25 @@ PointerBinaryTree insertNode(PointerBinaryTree root, int nodeval)
       pre = root;
       root = root->right;
     }
-    else
+    else if(nodeval < root->val)
     {
       leftOrright = 0;
       pre = root;
       root = root->left;
+    }else{
+      // 插入时发现相同的值,什么都不做
+      return otherRoot;
     }
   }
   if (leftOrright == 1)
   {
- 
     pre->right = node;
   }
   else
   {
-
     pre->left = node;
   }
-printf("return ");
+  // printf("return ");
   return otherRoot;
 }
 // 二叉搜索树的查找 查找最大值最小值只要遍历到最右或最左就好了就不写了
@@ -165,16 +166,15 @@ int main()
 
   PointerBinaryTree tree = nullptr;
   int input[6] = {1, 5, 3, 8, 6, 2};
-  printf("input\n");
-
+  printf("insert\n");
   for (int i = 0; i < 6; i++)
   {
     tree = insertNode(tree, input[i]);
   }
-    printf("insert over");
+  printf("insert over\n");
   BreadthFirstTraversal(tree);
   PointerBinaryTree node = findNode(tree, 8);
-  printf("find node pointer=%d", node);
+  printf("find node pointer=%d , node val = %d\n", node, node->val);
 
   tree = deleteNode(tree, 1);
   BreadthFirstTraversal(tree);

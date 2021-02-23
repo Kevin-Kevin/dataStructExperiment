@@ -12,3 +12,13 @@
  * 
  *  
  */
+#include <vector>
+#include <iostream>
+int main()
+{
+
+  std::string a = "nihao";
+  std::cout << a;
+a.  
+  return 0;
+}
