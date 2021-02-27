@@ -12,7 +12,7 @@
 # program language file#
 !*.cpp
 !*.c
-
+!*.java
 
 # document # 
 !*.md
