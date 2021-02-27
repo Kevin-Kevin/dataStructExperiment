@@ -121,6 +121,7 @@ PointerBinaryTree deleteNode(PointerBinaryTree root, int key){
       return nullptr;
     }
     // 此结点只有一个结点
+    
     if(root->left==nullptr){
       return root->right;
     }
