@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <memory.h>
 
-#define ElementType int
+#define ElementType TreeNode
 #define MaxData 1000
 
 
@@ -40,18 +40,19 @@ typedef struct HeapStruct
 } HeapStruct;
 typedef HeapStruct *MinHeap;
 
-typedef struct HaffmanTree
-{
-  TreeNode root;
+// typedef struct HaffmanTree
+// {
+//   TreeNode root;
   
-}*PointerHaffmanTree;
+// }*PointerHaffmanTree;
 
-struct TreeNode
+typedef struct TreeNode
 {   
-  ElementType val;
+  int weight;
   TreeNode* left;
   TreeNode* right;
-};
+  
+}* PointerTreeNode,*PointerHaffmanTree;
 
 
 
@@ -80,7 +81,9 @@ int main()
   int nums[10] = {23, 29, 83, 81, 82, 76, 75, 34, 58, 94};
   for (int i = 0; i < 10; i = i + 1)
   {
-    minHeap->Elements[++minHeap->Size] = nums[i];
+    
+    minHeap->Elements[++minHeap->Size].weight = nums[i];
+    
   }
   // 使用插入的数据直接转换成最小堆
   CreateMinHeapFromArray(minHeap);
@@ -244,9 +247,18 @@ bool IsEmpty(MinHeap minHeap)
 void createHafufmanTreeFromMinHeap(MinHeap heap)
 {
   // 先定义一个哈夫曼树
-  PointerHaffmanTree tree = (po)  
+
+  while(){
+    ElementType minNode1 = DeleteMin(heap);
+    ElementType minNode2 = DeleteMin(heap);
+    ElementType aNode = minNode1 + minNode2;
+    Insert(heap, aNode);
   
-  ElementType minNode1 = DeleteMin(heap);
-  ElementType minNode2 = DeleteMin(heap);
-  ElementType aNode = 
+    PointerHaffmanTree tree = (PointerTreeNode)malloc(sizeof(struct TreeNode));
+    tree->left = (PointerTreeNode)malloc(sizeof(struct TreeNode));
+    tree->right = (PointerTreeNode)malloc(sizeof(struct TreeNode));
+    tree->val = minNode1 + minNode2;
+
+
+  }
 }
