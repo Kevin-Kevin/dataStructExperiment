@@ -27,8 +27,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
+#include <queue>
+using namespace std;
+struct TreeNode;
+struct HeapStruct;
 
-#define ElementType TreeNode
+#define ElementType TreeNode*
 #define MaxData 1000
 
 
@@ -65,40 +69,51 @@ bool IsFull(MinHeap H);
 // 堆是否空
 bool IsEmpty(MinHeap H);
 // 插入结点
-void Insert(MinHeap H, ElementType item);
+void Insert(MinHeap H, int item);
 // 取出最大值
 ElementType DeleteMin(MinHeap heap);
 // 输出堆
 void printHeap(MinHeap minHeap);
-
 // 使用最小堆创建哈夫曼树
-void createHafufmanTreeFromMinHeap(MinHeap heap);
+PointerHaffmanTree createHafufmanTreeFromMinHeap(MinHeap heap);
+// 层序遍历输出哈弗曼树
+void BreadthFirstTraversal(PointerHaffmanTree tree);
 int main()
 {
   // 创建空堆
+
   MinHeap minHeap = CreateAnEmptyMinHeap(100);
-  // 这里使用插入的方法, 直接写到空堆数组中
+
+  // 这里不使用插入的方法, 直接写到空堆数组中
   int nums[10] = {23, 29, 83, 81, 82, 76, 75, 34, 58, 94};
   for (int i = 0; i < 10; i = i + 1)
   {
-    
-    minHeap->Elements[++minHeap->Size].weight = nums[i];
+
+    minHeap->Elements[++minHeap->Size] = (PointerTreeNode)malloc(sizeof(TreeNode));
+    minHeap->Elements[minHeap->Size]->weight = nums[i];
+    minHeap->Elements[minHeap->Size]->left = nullptr;
+    minHeap->Elements[minHeap->Size]->right = nullptr;
     
   }
+ printHeap(minHeap);
   // 使用插入的数据直接转换成最小堆
   CreateMinHeapFromArray(minHeap);
 
+
   printHeap(minHeap);
-  for (int i = 0; i < 3; i++)
-  {
-    printf("delete = %d\n", DeleteMin(minHeap));
-  }
+  // for (int i = 0; i < 3; i++)
+  // {
+  //   printf("delete = %d\n", DeleteMin(minHeap)->weight);
+  // }
   // while(1){
   //   int get;
   //   scanf("%d", &get);
   //   Insert(minHeap, get);
   //   printHeap(minHeap);
   // }
+  PointerHaffmanTree haffmanTree =createHafufmanTreeFromMinHeap(minHeap);
+  BreadthFirstTraversal(haffmanTree);
+
   return 0;
 }
 /*
@@ -109,12 +124,21 @@ MinHeap CreateAnEmptyMinHeap(int maxSize)
 
   MinHeap minHeap = (MinHeap)malloc(sizeof(HeapStruct));
   // index of 0 does not restore
-  minHeap->Elements = (ElementType *)malloc(maxSize + 1 * sizeof(ElementType));
+  minHeap->Elements = (ElementType*)malloc((maxSize + 1) * sizeof(ElementType));
   minHeap->Size = 0;
   minHeap->Capacity = maxSize;
-  minHeap->Elements[0] = MaxData;
-  for (int i = 1; i <= minHeap->Capacity; i++)
-    minHeap->Elements[i] = -1;
+  minHeap->Elements[0] = (PointerTreeNode)malloc(sizeof(TreeNode));
+  minHeap->Elements[0]->weight = MaxData;
+  minHeap->Elements[0]->right = nullptr;
+  minHeap->Elements[0]->right = nullptr;
+  for (int i = 1; i <= minHeap->Capacity; i++){
+    
+    minHeap->Elements[i] = (PointerTreeNode)malloc(sizeof(TreeNode));
+    minHeap->Elements[i]->weight = -1;
+    minHeap->Elements[i]->left = nullptr;
+    minHeap->Elements[i]->right = nullptr;
+  }  
+  
   return minHeap;
 }
 /*
@@ -137,19 +161,19 @@ void CreateMinHeapFromArray(MinHeap heap)
     while (child <= heap->Size)
     {
       // 选出子结点中最小的值
-      if (child != heap->Size && heap->Elements[child + 1] < heap->Elements[child])
+      if (child != heap->Size && heap->Elements[child + 1]->weight < heap->Elements[child]->weight)
         child++;
       // 父结点比最大的子结点小, 说明以父结点为根的树是最小堆
-      if (heap->Elements[parent] < heap->Elements[child])
+      if (heap->Elements[parent]->weight < heap->Elements[child]->weight)
       {
         break;
       }
       else
       {
         // 最大子结点比父结点大, 交换值 , 然后继续检查
-        int m = heap->Elements[parent];
-        heap->Elements[parent] = heap->Elements[child];
-        heap->Elements[child] = m;
+        int m = heap->Elements[parent]->weight;
+        heap->Elements[parent]->weight = heap->Elements[child]->weight;
+        heap->Elements[child]->weight = m;
         parent = child;
         child = parent * 2;
       }
@@ -174,16 +198,20 @@ void Insert(MinHeap minHeap, ElementType item)
   }
 
   int i = ++(minHeap->Size);
-  printf("insertNum = %d \n", item);
+
   minHeap->Elements[i] = item;
-  for (; item < minHeap->Elements[i / 2]; i = i / 2)
+
+  for (; item->weight < minHeap->Elements[i / 2]->weight; i = i / 2)
   {
-    printf("  index = %d\n", i);
-    int m = minHeap->Elements[i / 2];
+
+
+    ElementType m = minHeap->Elements[i / 2];
     minHeap->Elements[i / 2] = minHeap->Elements[i];
     minHeap->Elements[i] = m;
+
+
   }
-  printf("insertIndex = %d\n\n", i);
+
 }
 
 /*
@@ -193,42 +221,46 @@ void Insert(MinHeap minHeap, ElementType item)
  *  和下层左右子结点中最小的值交换,然后继续向下比较， 一直到没有比其小的值
  *
  */
-ElementType DeleteMin(MinHeap heap)
+PointerHaffmanTree DeleteMin(MinHeap heap)
 {
   if (IsEmpty(heap))
-    return -1;
+    return nullptr;
   ElementType res = heap->Elements[1];
+
+  
   ElementType lastN = heap->Elements[heap->Size--];
   int parent = 1;
   int child = 2;
   for (; child <= heap->Size; parent = child, child = parent * 2)
   {
     // 找到子结点的最大值
-    if (child <= heap->Size && heap->Elements[child] > heap->Elements[child + 1])
+    if (child <= heap->Size && heap->Elements[child]->weight > heap->Elements[child + 1]->weight)
     {
       child++;
     }
     // lastN 大于找到的值, 说明到了合适的层
-    if (lastN < heap->Elements[child])
+    if (lastN->weight < heap->Elements[child]->weight)
       break;
     else
       heap->Elements[parent] = heap->Elements[child];
   }
   heap->Elements[parent] = lastN;
-  printHeap(heap);
+
+
+
   return res;
 }
 
 void printHeap(MinHeap minHeap)
 {
-  printf("------- heap ------- \n");
+  printf("\n------- heap ------- \n");
 
   for (int index = 1; index <= minHeap->Size; index = index * 2)
   {
 
     for (int i = index; i <= (index * 2) - 1; i++)
     {
-      printf("%d ", minHeap->Elements[i]);
+      printf("%d ", minHeap->Elements[i]->weight);
     }
     printf("\n");
   }
@@ -244,21 +276,45 @@ bool IsEmpty(MinHeap minHeap)
   return minHeap->Size == 0 ? true : false;
 }
 
-void createHafufmanTreeFromMinHeap(MinHeap heap)
+PointerHaffmanTree createHafufmanTreeFromMinHeap(MinHeap heap)
 {
-  // 先定义一个哈夫曼树
-
-  while(){
+  int size = heap->Size;
+  PointerHaffmanTree tree;
+  for (int i = 1;i < size;i++) {
     ElementType minNode1 = DeleteMin(heap);
     ElementType minNode2 = DeleteMin(heap);
-    ElementType aNode = minNode1 + minNode2;
-    Insert(heap, aNode);
-  
-    PointerHaffmanTree tree = (PointerTreeNode)malloc(sizeof(struct TreeNode));
-    tree->left = (PointerTreeNode)malloc(sizeof(struct TreeNode));
-    tree->right = (PointerTreeNode)malloc(sizeof(struct TreeNode));
-    tree->val = minNode1 + minNode2;
 
+
+    tree = (PointerTreeNode)malloc(sizeof(struct TreeNode));
+    tree->left = minNode1;
+    tree->right = minNode2;
+    tree->weight =minNode1->weight + minNode2->weight;
+    BreadthFirstTraversal(tree);
+    Insert(heap, tree);
 
   }
+  return tree;
+}
+// 层序遍历：队列
+void BreadthFirstTraversal(PointerHaffmanTree tree)
+{
+  queue<PointerTreeNode> q;
+  q.push(tree);
+  PointerTreeNode node;
+  printf("======== 层序遍历");
+  while (q.empty() != true)
+  {
+    printf("\n");
+    for (int i = q.size(); i > 0; i--)
+    {
+      node = q.front();
+      q.pop();
+      printf("%d ", node->weight);
+      if (node->left != nullptr)
+        q.push(node->left);
+      if (node->right != nullptr)
+        q.push(node->right);
+    }
+  }
+  printf("\n--------\n");
 }

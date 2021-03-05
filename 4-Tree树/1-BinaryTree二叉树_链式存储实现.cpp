@@ -185,6 +185,29 @@ void BreadthFirstTraversal(PointerBinaryTree tree)
   }
   cout << endl;
 }
+// 层序遍历：队列 (输出时分层)
+void BreadthFirstTraversalSeparateByLevel (PointerBinaryTree tree)
+{
+  queue<PointerTreeNode> q;
+  q.push(tree);
+  PointerTreeNode node;
+  cout << "---- 层序遍历";
+  while (q.empty() != true)
+  {
+    printf("\n");
+    for (int i = q.size(); i > 0; i--)
+    {
+      node = q.front();
+      q.pop();
+      cout << node->val << " ";
+      if (node->left != nullptr)
+        q.push(node->left);
+      if (node->right != nullptr)
+        q.push(node->right);
+    }
+  }
+  printf("\n--------\n");
+}
 // 前序遍历(非递归), 使用栈模拟递归压栈
 void stackPreOrderTraversal(PointerBinaryTree node)
 {

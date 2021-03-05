@@ -46,10 +46,8 @@ int main() {
   for (int i = 0; i < 10; i = i + 1)   {
     maxHeap->Elements[++maxHeap->Size] = nums[i];
   }
-  printf("create heap from array :\n");
-
   CreateHeapFromArray(maxHeap);
-
+  printf("create heap from array :\n");
   printHeap(maxHeap);
   for (int i = 0; i < 3; i++)   {
     printf("delete = %d\n", DeleteMax(maxHeap));
@@ -67,7 +65,7 @@ MaxHeap CreateAnEmptyHeap(int maxSize) {
 
   MaxHeap maxHeap = (MaxHeap)malloc(sizeof(HeapStruct));
   // index of 0 does not restore
-  maxHeap->Elements = (ElementType*)malloc(maxSize + 1 * sizeof(ElementType));
+  maxHeap->Elements = (ElementType*)malloc((maxSize + 1) * sizeof(ElementType));
   maxHeap->Size = 0;
   maxHeap->Capacity = maxSize;
   maxHeap->Elements[0] = MaxData;
