@@ -11,7 +11,7 @@
  * PS : 前面实现了最大堆, 现在先实现一下最小堆吧
  */
 
- /*
+/*
   * 最小堆
   * 常使用完全二叉树表示, 用数组来存储
   * 定义 :
@@ -31,17 +31,26 @@
 #define ElementType int
 #define MaxData 1000
 
-typedef struct HeapStruct {
-  ElementType* Elements; // array of element
+
+typedef struct HeapStruct
+{
+  ElementType *Elements; // array of element
   int Size;              // current number of element
   int Capacity;          // max capacity of heap
 } HeapStruct;
-typedef HeapStruct* MinHeap;
+typedef HeapStruct *MinHeap;
 
-typedef struct HaffmanTree { 
-  
-}
+typedef struct HaffmanTree
+{
+  TreeNode root;
+};
 
+struct TreeNode
+{   
+  ElementType val;
+  TreeNode* left;
+  TreeNode* right;
+};
 
 
 
@@ -62,19 +71,22 @@ void printHeap(MinHeap minHeap);
 
 // 使用最小堆创建哈夫曼树
 void createHafufmanTreeFromMinHeap(MinHeap heap);
-int main() {
+int main()
+{
   // 创建空堆
   MinHeap minHeap = CreateAnEmptyMinHeap(100);
   // 这里使用插入的方法, 直接写到空堆数组中
-  int nums[10] = { 23, 29, 83, 81, 82, 76, 75, 34, 58, 94 };
-  for (int i = 0; i < 10; i = i + 1) {
+  int nums[10] = {23, 29, 83, 81, 82, 76, 75, 34, 58, 94};
+  for (int i = 0; i < 10; i = i + 1)
+  {
     minHeap->Elements[++minHeap->Size] = nums[i];
   }
   // 使用插入的数据直接转换成最小堆
   CreateMinHeapFromArray(minHeap);
 
   printHeap(minHeap);
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 3; i++)
+  {
     printf("delete = %d\n", DeleteMin(minHeap));
   }
   // while(1){
@@ -88,11 +100,12 @@ int main() {
 /*
  * 创建空堆
  */
-MinHeap CreateAnEmptyMinHeap(int maxSize) {
+MinHeap CreateAnEmptyMinHeap(int maxSize)
+{
 
   MinHeap minHeap = (MinHeap)malloc(sizeof(HeapStruct));
   // index of 0 does not restore
-  minHeap->Elements = (ElementType*)malloc(maxSize + 1 * sizeof(ElementType));
+  minHeap->Elements = (ElementType *)malloc(maxSize + 1 * sizeof(ElementType));
   minHeap->Size = 0;
   minHeap->Capacity = maxSize;
   minHeap->Elements[0] = MaxData;
@@ -108,22 +121,27 @@ MinHeap CreateAnEmptyMinHeap(int maxSize) {
  * 相当于在已有的两个堆中插入一个根结点的操作使其还是一个堆的操作
  * 使得数组转换成堆
  */
- // 这里假设已经将数字放进堆的数组中, 所以输入为一个堆
-void CreateMinHeapFromArray(MinHeap heap) {
+// 这里假设已经将数字放进堆的数组中, 所以输入为一个堆
+void CreateMinHeapFromArray(MinHeap heap)
+{
   // 从最后一个结点的父节点开始, 其前面所有结点都需要进行比较交换
   int n = heap->Size / 2;
-  for (int i = n; i >= 1; i--) {
+  for (int i = n; i >= 1; i--)
+  {
     int parent = i;
     int child = i * 2;
-    while (child <= heap->Size) {
+    while (child <= heap->Size)
+    {
       // 选出子结点中最小的值
       if (child != heap->Size && heap->Elements[child + 1] < heap->Elements[child])
         child++;
       // 父结点比最大的子结点小, 说明以父结点为根的树是最小堆
-      if (heap->Elements[parent] < heap->Elements[child]) {
+      if (heap->Elements[parent] < heap->Elements[child])
+      {
         break;
       }
-      else {
+      else
+      {
         // 最大子结点比父结点大, 交换值 , 然后继续检查
         int m = heap->Elements[parent];
         heap->Elements[parent] = heap->Elements[child];
@@ -135,7 +153,6 @@ void CreateMinHeapFromArray(MinHeap heap) {
   }
 }
 
-
 /*
  * 最小堆插入:
  *  查看堆是否满
@@ -145,15 +162,18 @@ void CreateMinHeapFromArray(MinHeap heap) {
  * T(n)=O(log N)
  * PS : 这里如果直接采用比较法, 从前向后比较, 会非常麻烦, 因为要使得插入后依然是完全二叉树
  */
-void Insert(MinHeap minHeap, ElementType item) {
-  if (IsFull(minHeap)) {
+void Insert(MinHeap minHeap, ElementType item)
+{
+  if (IsFull(minHeap))
+  {
     return;
   }
 
   int i = ++(minHeap->Size);
   printf("insertNum = %d \n", item);
   minHeap->Elements[i] = item;
-  for (; item < minHeap->Elements[i / 2]; i = i / 2) {
+  for (; item < minHeap->Elements[i / 2]; i = i / 2)
+  {
     printf("  index = %d\n", i);
     int m = minHeap->Elements[i / 2];
     minHeap->Elements[i / 2] = minHeap->Elements[i];
@@ -169,16 +189,19 @@ void Insert(MinHeap minHeap, ElementType item) {
  *  和下层左右子结点中最小的值交换,然后继续向下比较， 一直到没有比其小的值
  *
  */
-ElementType DeleteMin(MinHeap heap) {
+ElementType DeleteMin(MinHeap heap)
+{
   if (IsEmpty(heap))
     return -1;
   ElementType res = heap->Elements[1];
   ElementType lastN = heap->Elements[heap->Size--];
   int parent = 1;
   int child = 2;
-  for (; child <= heap->Size; parent = child, child = parent * 2) {
+  for (; child <= heap->Size; parent = child, child = parent * 2)
+  {
     // 找到子结点的最大值
-    if (child <= heap->Size && heap->Elements[child] > heap->Elements[child + 1]) {
+    if (child <= heap->Size && heap->Elements[child] > heap->Elements[child + 1])
+    {
       child++;
     }
     // lastN 大于找到的值, 说明到了合适的层
@@ -192,12 +215,15 @@ ElementType DeleteMin(MinHeap heap) {
   return res;
 }
 
-void printHeap(MinHeap minHeap) {
+void printHeap(MinHeap minHeap)
+{
   printf("------- heap ------- \n");
 
-  for (int index = 1; index <= minHeap->Size; index = index * 2) {
+  for (int index = 1; index <= minHeap->Size; index = index * 2)
+  {
 
-    for (int i = index; i <= (index * 2) - 1; i++) {
+    for (int i = index; i <= (index * 2) - 1; i++)
+    {
       printf("%d ", minHeap->Elements[i]);
     }
     printf("\n");
@@ -205,19 +231,21 @@ void printHeap(MinHeap minHeap) {
   printf("--------------------\n");
 }
 
-bool IsFull(MinHeap minHeap) {
+bool IsFull(MinHeap minHeap)
+{
   return minHeap->Size == minHeap->Capacity ? true : false;
-
 }
-bool IsEmpty(MinHeap minHeap) {
+bool IsEmpty(MinHeap minHeap)
+{
   return minHeap->Size == 0 ? true : false;
 }
 
-void createHafufmanTreeFromMinHeap(MinHeap heap){
+void createHafufmanTreeFromMinHeap(MinHeap heap)
+{
+  // 先定义一个哈夫曼树
+  
   
   ElementType minNode1 = DeleteMin(heap);
   ElementType minNode2 = DeleteMin(heap);
-  ElementType aNode =
-  
-  
+  ElementType aNode = 
 }
