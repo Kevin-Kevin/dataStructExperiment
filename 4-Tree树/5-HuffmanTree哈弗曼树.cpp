@@ -43,7 +43,8 @@ typedef HeapStruct *MinHeap;
 typedef struct HaffmanTree
 {
   TreeNode root;
-};
+  
+}*PointerHaffmanTree;
 
 struct TreeNode
 {   
@@ -243,7 +244,7 @@ bool IsEmpty(MinHeap minHeap)
 void createHafufmanTreeFromMinHeap(MinHeap heap)
 {
   // 先定义一个哈夫曼树
-  
+  PointerHaffmanTree tree = (po)  
   
   ElementType minNode1 = DeleteMin(heap);
   ElementType minNode2 = DeleteMin(heap);
