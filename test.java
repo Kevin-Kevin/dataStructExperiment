@@ -1,26 +1,19 @@
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
 
-
+import javax.swing.plaf.FileChooserUI;
 
 class test {
   public static void main(String[] args) {
-    Stack<Integer> s;
-    Deque<Integer> q;
+    int[] b = new int[10];
+    System.out.println(b.getClass().toString());
+    int a=1;
 
-    s = new Stack<>();
-    q = new ArrayDeque<>();
 
-    q.addLast(Integer.valueOf(1));
-    q.addLast(Integer.valueOf(2));
-    q.addLast(Integer.valueOf(3));
- 
-    System.out.println(q.removeFirst());
-    System.out.println(q.poll());
-
-    System.out.println(q.peek());
-    System.out.println(q.remove());
-  
-    System.out.println(q.peek());
+    
   }
 }
