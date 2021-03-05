@@ -37,6 +37,7 @@ PointStack CreatEmptyStack(int MaxSize){
 bool Push(ElementType x, PointStack stack) {
     // 判断是否栈满
     if(stack->Top == stack->MaxSize - 1){
+        printf("stack is full !\n");
         return false;
     }
     // 入栈
@@ -48,6 +49,7 @@ bool Push(ElementType x, PointStack stack) {
 ElementType Pop(PointStack stack) {
     // 判断是否栈空
     if(stack->Top == -1){
+        printf("stack is empty !\n");
         return -100000;
     }
     // 出栈

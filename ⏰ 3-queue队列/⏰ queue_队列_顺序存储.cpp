@@ -5,7 +5,7 @@
         入队列
         判断是否队列为空
         出队列
-
+    Todo : 要实现数组循环队列
 */
 #include <iostream>
 #include <stdio.h>
@@ -35,7 +35,7 @@ void addQ(ElementType x, PointQueue queue, int maxSize)
 {
     if (queue->rear == maxSize - 1)
     {
-        printf("the queue is full");
+        printf("the queue is full !\n");
         return;
     }
     queue->rear++;
@@ -46,7 +46,7 @@ ElementType deleteQ(PointQueue queue)
 {
     if (queue->rear == -1)
     {
-        printf("the queue is empty,can not delete Q\n");
+        printf("the queue is empty !\n");
         return -10000;
     }
     ElementType deleteElement = queue->DataArray[queue->front];
@@ -79,7 +79,7 @@ int main()
 
      PrintQueue(queue);
      int i = 0;
-     while (i < 100)
+     while (i < 105)
      {
 
          addQ(i, queue, maxSize);

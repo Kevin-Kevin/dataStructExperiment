@@ -275,9 +275,6 @@ public:
 int main()
 {
   BinaryTree tree;
-
-
-
   tree.root=tree.getAnOrdinaryTree();
 
   // input : 1 2 4 -1 -1 5 -1 -1 3 6 -1 -1 7 -1 -1

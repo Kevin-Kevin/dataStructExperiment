@@ -41,6 +41,7 @@ void Push(ElementType x, PointStack stack) {
 ElementType Pop(PointStack stack) {
     // 判断是否栈空
     if(stack->Next==nullptr){
+        printf("stack is empty !\n");
         return -10000;
     }
     // 出栈
