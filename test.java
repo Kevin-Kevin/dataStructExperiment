@@ -9,9 +9,11 @@ import javax.swing.plaf.FileChooserUI;
 
 class test {
   public static void main(String[] args) {
-    int[] b = new int[10];
-    System.out.println(b.getClass().toString());
-    int a=1;
+    int i=100;
+    while(i>0){
+      System.out.println(new Random().nextInt(3));
+      i--;
+    }
 
 
     

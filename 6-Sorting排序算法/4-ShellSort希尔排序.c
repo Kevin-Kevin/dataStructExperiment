@@ -24,11 +24,8 @@ void ShellSort(int* nums, int size) {
   int m = (size-1) / 2;
   // 增量 m 不断减半
   for (;m != 0;m /= 2) {
-    printf("m=%d\n",m);
-
     // 对间隔为 m 的数进行希尔排序
     for (int index = m;index < size;index++) {
-      printf("index = %d\n",index);
       for (int i = index;i >= m;i=i-m) {
         //printf("start i=%d m=%d\n",i,m);
         if (nums[i] > nums[i - m]) {
@@ -38,11 +35,8 @@ void ShellSort(int* nums, int size) {
         } else {
           break;
         }
-        printf("i=%d\n",i);
       }
     }
-    printf("\nend m=%d\n",m);
-
   }
   printNums(nums,size);
 }
@@ -53,7 +47,6 @@ void printNums(int* nums, int size) {
     printf("%d ", nums[i]);
   }
   printf("\n");
-
 }
 int main() {
   int nums[] = { 3, 44, 38, 5, 47,
