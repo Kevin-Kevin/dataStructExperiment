@@ -12,7 +12,7 @@
 // hashTable 地址空间存放的结构体
 struct Cell;
 // hashTable 结构体
-struct HashTable;
+typedef struct HashTable* pointerHashTable;
 
 
 
@@ -39,7 +39,7 @@ typedef struct Cell {
 typedef struct HashTable {
   int tableSize;
   Cell* theCells;
-} HashTable, * pointerHashTable;
+} HashTable;
 
 // 获取一个不小于 n 的最小素数
 int nextPrimeNumber(int n) {
@@ -75,8 +75,7 @@ pointerHashTable initializeTable(int tableSize) {
   hashTable->theCells = (Cell*)malloc(size * sizeof(Cell));
   hashTable->tableSize = size;
 
-  int a = 1;
-  for (int i = 0;i < tableSize - 2;i++) {
+  for (int i = 0;i < size;i++) {
     hashTable->theCells[i].info = Empty;
   }
   return hashTable;
@@ -110,8 +109,7 @@ int findBySquare(pointerHashTable hashTable, int key) {
     if (sign == -1) {
       di++;
       sign = 1;
-    }
-    else {
+    }     else {
       sign = -1;
     }
 
@@ -127,8 +125,7 @@ int insertBySquare(pointerHashTable hashTable, int key) {
   // 有就返回 -1 表示错误
   if (hashTable->theCells[position].info == Legitimate) {
     return -1;
-  }
-  else {
+  }   else {
     // 没有就插入
     hashTable->theCells[position].key = key;
     hashTable->theCells[position].info = Legitimate;
@@ -143,8 +140,7 @@ void printHashTable(pointerHashTable hashTable) {
   for (int i = 0;i < hashTable->tableSize;i++) {
     if (hashTable->theCells[i].info == Legitimate) {
       printf("%d ", hashTable->theCells[i].key);
-    }
-    else {
+    }     else {
       printf("%d ", -1);
     }
   }

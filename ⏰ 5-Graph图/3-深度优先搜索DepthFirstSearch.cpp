@@ -125,7 +125,7 @@ void printGraph(Graph g)
     while (node != nullptr)
     {
       printf("--->%d ", node->AdjV);
-      printf("w %d  ", node->weight);
+      printf("(w:%d) ", node->weight);
       node = node->nextNode;
     }
     printf("\n");

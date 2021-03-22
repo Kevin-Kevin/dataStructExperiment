@@ -31,10 +31,17 @@ void BubbleSort(int *nums,int size){
 }
 void printNums(int *nums, int size){
   printf("nums = ");
+  int compareN = -1;
   for(int i=0;i<size;i++){
+    if(compareN<nums[i]){
+      compareN = nums[i];
+    }
     printf("%d ", nums[i]);
   }
   printf("\n");
+  if(compareN==nums[size-1]){
+    printf("this array is sorted ! \n");
+  }
 
 }
 int main()
