@@ -167,7 +167,7 @@ void printHeap(MaxHeap maxHeap) {
 
   for (int index = 1; index <= maxHeap->Size; index = index * 2)   {
 
-    for (int i = index; i <= (index * 2) - 1; i++)     {
+    for (int i = index; i <= (index * 2) - 1 && i<maxHeap->Size; i++)     {
       printf("%d ", maxHeap->Elements[i]);
     }
     printf("\n");

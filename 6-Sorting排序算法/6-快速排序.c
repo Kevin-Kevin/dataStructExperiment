@@ -98,25 +98,37 @@ void swap(int* low, int* high){
 }
 void printNums(int* nums, int size) {
   printf("nums = ");
-  int compareN = -1;
   for (int i = 0;i < size;i++) {
-    if (compareN < nums[i]) {
-      compareN = nums[i];
-    }
     printf("%d ", nums[i]);
   }
   printf("\n");
-  if (compareN == nums[size - 1]) {
-    printf("this array is sorted ! \n");
+  int ascend = 1;
+  int descend = 1;
+  for (int i = 1;i < size;i++) {
+    if (nums[i] > nums[i - 1]) {
+      ascend++;
+    }
+    if (nums[i] < nums[i - 1]) {
+      descend++;
+    }
+  }
+
+  if (ascend == size) {
+    printf("✅ sorted in ascending order ! \n");
+  } else if (descend == size) {
+    printf("✅ sorted in descending order ! \n");
+  } else {
+    printf("❌ not been sorted !\n");
   }
 
 }
-void main(){
+int main(){
   int nums[] = { 3, 44, 38, 5, 47,
               15, 36, 26, 27, 2,
               46, 4, 19, 50, 48 };
   quickSort(nums, sizeof(nums) / sizeof(int));
   printNums(nums, sizeof(nums) / sizeof(int));
+  return 0;
 }
 
 

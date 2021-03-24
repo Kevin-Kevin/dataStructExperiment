@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-void printfArray(int nums[], int length);
+void printNums(int* nums, int size);
 
 // 归并操作
 // 将 nums[] 中的两个有序子序列按序合并至 result[]
@@ -28,7 +28,7 @@ void printfArray(int nums[], int length);
 void Merge(int nums[], int result[], int l, int r, int rightEnd)
 {
   printf("--------\nmerge start \nl=%d,r=%d,rightend=%d\n",l,r,rightEnd);
-  printfArray(nums, 10);
+  printNums(nums, 10);
 
   int leftEnd = r - 1;
   int num = rightEnd - l + 1;
@@ -91,22 +91,41 @@ void MSort(int nums[], int result[], int l, int rightEnd)
   }
 }
 // 输出数组,测试用
-void printfArray(int nums[], int length)
-{
-  printf("num[]= ");
-  for (int i = 0; i < length; i++)
+void printNums(int* nums, int size) {
+  printf("nums = ");
+  for (int i = 0;i < size;i++) {
     printf("%d ", nums[i]);
+  }
   printf("\n");
+  int ascend = 1;
+  int descend = 1;
+  for (int i = 1;i < size;i++) {
+    if (nums[i] > nums[i - 1]) {
+      ascend++;
+    }
+    if (nums[i] < nums[i - 1]) {
+      descend++;
+    }
+  }
+
+  if (ascend == size) {
+    printf("✅ sorted in ascending order ! \n");
+  } else if (descend == size) {
+    printf("✅ sorted in descending order ! \n");
+  } else {
+    printf("❌ not been sorted !\n");
+  }
+
 }
 int main(void)
 {
   int nums[10] = {2, 12, 6, 8, 9, 1, 3, 11, 7, 10};
   int result[10];
-  printfArray(nums, 10);
+  printNums(nums, 10);
 
   //Merge(nums, result, 0, 5, 9);
   MSort(nums, result, 0, 9);
-  printfArray(nums, 10);
+  printNums(nums, 10);
 
   printf("\n");
   return 0;

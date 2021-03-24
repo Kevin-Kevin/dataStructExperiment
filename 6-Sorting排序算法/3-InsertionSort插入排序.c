@@ -29,12 +29,31 @@ void InsertSort(int *nums,int size){
   printNums(nums,size);
 
 }
-void printNums(int *nums, int size){
+void printNums(int* nums, int size) {
   printf("nums = ");
-  for(int i=0;i<size;i++){
+  for (int i = 0;i < size;i++) {
     printf("%d ", nums[i]);
   }
   printf("\n");
+  int ascend = 1;
+  for (int i = 1;i < size;i++) {
+    if (nums[i] > nums[i - 1]) {
+      ascend++;
+    }
+  }
+  int descend = 1;
+  for (int i = 1;i < size;i++) {
+    if (nums[i] < nums[i - 1]) {
+      descend++;
+    }
+  }
+  if (ascend == size) {
+    printf("✅ sorted in ascending order ! \n");
+  } else if (descend == size) {
+    printf("✅ sorted in descending order ! \n");
+  } else {
+    printf("❌ not been sorted !\n");
+  }
 
 }
 int main()
