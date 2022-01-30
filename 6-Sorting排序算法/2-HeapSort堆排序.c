@@ -32,6 +32,7 @@ void swapHeap(int* nums, int last);
 void printNums(int* nums, int size);
 // 输出堆
 void printArrayHeap(int* nums, int size);
+
 void heapSort(int* nums, int size) {
   arrayToHeap(nums, size);
   printArrayHeap(nums, size);

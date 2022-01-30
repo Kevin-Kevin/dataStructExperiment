@@ -130,7 +130,3 @@ int main(){
   printNums(nums, sizeof(nums) / sizeof(int));
   return 0;
 }
-
-
-
-

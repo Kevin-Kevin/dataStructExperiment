@@ -17,7 +17,7 @@
   
 */
 
-int main{
+int main(void){
   int i = 0;
   key m = array[i].key;
   while()

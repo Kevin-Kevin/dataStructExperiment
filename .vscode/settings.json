@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "*.cpp": "cpp",
+    "queue": "cpp",
+    "__node_handle": "cpp",
+    "vector": "cpp"
+  }
+}
